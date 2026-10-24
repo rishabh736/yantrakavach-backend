@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: yantra-kavach-backend
+  datasource:
+    url: jdbc:h2:file:./data/yantrakavach;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  cors:
+    # Comma-separated list of origins allowed to call this API (the Vite dev server + your deployed frontend).
+    allowed-origins: http://localhost:5173,http://127.0.0.1:5173
+  jwt:
+    # Change this secret before deploying anywhere real. Minimum 32 characters.
+    secret: "change-this-to-a-long-random-secret-before-production-use"
+    expiry-minutes: 720
+  simulation:
+    # How often (ms) the server nudges machine readings toward their target and checks thresholds.
+    # Only applies to machines that do NOT currently have a live device reporting for them (see below).
+    tick-ms: 1500
+    # How long (seconds) a device can go quiet before its machine falls back to the simulator and its
+    # sensors are shown as offline. Keep this comfortably above how often your ESP32 actually posts.
+    device-timeout-seconds: 60
+  seed:
+    demo-password: "demo123"
